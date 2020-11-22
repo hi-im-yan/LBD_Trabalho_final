@@ -6,7 +6,8 @@ https://ava.ufms.br/pluginfile.php/343921/mod_resource/content/0/Trabalho%20LabB
 
 ## Instalação
 
-``
+```
 mkdir src
 cd src
-pip install psycopg2´´
+pip install psycopg2´´´
+```
