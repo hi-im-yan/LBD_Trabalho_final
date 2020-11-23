@@ -4,40 +4,6 @@ import json
 with open('credentials.json', 'r') as c:
     credentials = json.load(c)
 
-with open('../candidatos/120000633197.json', 'r') as candidate:
-    c_infos = json.load(candidate)
-
-
-attr = ''
-attr_type = ''
-to_query = ''
-for info in c_infos:
-    attr = info
-    if type(c_infos[info]) == bool:
-        attr_type = 'BOOLEAN NOT NULL'
-        to_query += attr + " " + attr_type + ", "
-    elif type(c_infos[info]) == int:
-        attr_type = 'INTEGER NOT NULL'
-        to_query += attr + " " + attr_type + ", "
-    elif type(c_infos[info]) == str:
-        attr_type = 'VARCHAR NOT NULL'
-        to_query += attr + " " + attr_type + ", "
-    elif type(c_infos[info]) == float:
-        attr_type = 'FLOAT NOT NULL'
-        to_query += attr + " " + attr_type + ", "
-    elif c_infos[info] is None:
-        attr_type = 'VARCHAR'
-        to_query += attr + " " + attr_type + ", "
-    # elif type(c_infos[info]) == dict:
-    #     attr_type = 'Dict'
-    #     to_query += attr + " " + attr_type + ", "
-    # elif type(c_infos[info]) == list:
-    #     attr_type = 'List'
-    #     to_query += attr + " " + attr_type + ", "
-
-to_query = to_query[:-2]
-query = "CREATE TABLE " + "candidatos (" + to_query + ");"
-
 try:
     conn = psycopg2.connect(
         database=credentials["database"],
@@ -51,12 +17,63 @@ except:
     print("Failed to connect Database")
 
 cur = conn.cursor()
-try:
-    cur.execute(query)
-    print("Query Success")
-except:
-    print("Query Failed")
 
-conn.commit()
+with open('../candidatos/120000633197.json', 'r') as candidate:
+    c_infos = json.load(candidate)
+
+
+def check_attribute_and_type(attribute, value):
+    attr_type = ''
+    if type(value) == bool:
+        attr_type = 'BOOLEAN NOT NULL'
+    elif type(value) == int:
+        attr_type = 'INTEGER NOT NULL'
+    elif type(value) == str:
+        attr_type = 'VARCHAR NOT NULL'
+    elif type(value) == float:
+        attr_type = 'FLOAT NOT NULL'
+    elif value is None:
+        attr_type = 'VARCHAR'
+    elif type(value) is dict:
+        create_table(value, attribute)
+        return ""
+    elif type(value) is list:
+        create_table(value, attribute)
+        return ""
+    else:
+        return ""
+    return attribute + " " + attr_type + ", "
+
+
+def create_table(list_dict, table_name):
+    to_query = ''
+
+    # checa se é uma lista
+    if type(list_dict) is list:
+        if not (list_dict[0] is dict):
+            query = "CREATE TABLE IF NOT EXISTS " + table_name + \
+                " (id SERIAL, nome VARCHAR);"
+            cur.execute(query)
+            conn.commit()
+            print("CREATED " + table_name + " TABLE")
+            return
+        else:
+            list_dict = list_dict[0]
+
+    for info in list_dict:
+        to_query += check_attribute_and_type(info, list_dict[info])
+    to_query = to_query[:-2]
+    query = "CREATE TABLE IF NOT EXISTS " + table_name + " (" + to_query + ");"
+    try:
+        cur.execute(query)
+        conn.commit()
+        print("CREATED " + table_name + " TABLE")
+    except:
+        print("Query Failed")
+
+
+create_table(c_infos, table_name="candidatos")
+
+
 cur.close()
 conn.close()
