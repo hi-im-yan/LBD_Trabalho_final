@@ -1,8 +1,8 @@
 import psycopg2
 import json
 
-with open('credentials.json', 'r') as c:
-    credentials = json.load(c)
+# with open('credentials.json', 'r') as c:
+#     credentials = json.load(c)
 
 try:
     conn = psycopg2.connect(
