@@ -13,8 +13,8 @@ try:
         port=credentials["port"]
     )
     print("Connected to postgresql DB")
-except:
-    print("Failed to connect Database")
+except Exception as e:
+    print(e)
 
 cur = conn.cursor()
 
@@ -34,10 +34,7 @@ def check_attribute_and_type(attribute, value):
         attr_type = 'FLOAT NOT NULL'
     elif value is None:
         attr_type = 'VARCHAR'
-    elif type(value) is dict:
-        create_table(value, attribute)
-        return ""
-    elif type(value) is list:
+    elif type(value) is dict or type(value) is list:
         create_table(value, attribute)
         return ""
     else:
