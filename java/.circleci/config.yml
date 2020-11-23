@@ -1,0 +1,21 @@
+version: 2
+
+sqlge: &sqlge
+  docker:
+    - image: circleci/openjdk:14-jdk-buster
+  working_directory: ~/app
+  command: cd sqlge
+
+jobs:
+  tests-n-build-sqlge:
+    <<: *sqlge
+    steps:
+      - checkout
+      - run: cd sqlge && mvn test
+      - run: cd sqlge && mvn package -DskipTests=true
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - tests-n-build-sqlge

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: trabalho-final-db
+    environment:
+      - POSTGRES_DATABASE=trabalho_final
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
+    networks:
+      - db
+
+  final:
+    build: ./final
+    container_name: trabalho-final-sqlge
+    entrypoint: ["java","-Dspring.profiles.active=compose", "-jar", "/home/app/app.jar"]
+    restart: never
+    depends_on:
+      - database
+    networks:
+      - db
+
+networks:
+  db:
+  
