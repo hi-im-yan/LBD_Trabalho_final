@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS vices (
 );
 
 CREATE TABLE IF NOT EXISTS partido (
-	numero bigint,
+	numero bigint PRIMARY KEY,
 	sigla varchar(64),
 	nome varchar(124)
 );
