@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS candidato (
-	id integer PRIMARY KEY,
+	id bigint PRIMARY KEY,
 	nomeUrna varchar(256),
-	numero integer,
-	idCandidatoSuperior integer,
+	numero bigint,
+	idCandidatoSuperior bigint,
 	nomeCompleto varchar(256),
 	descricaoSexo varchar(128),
 	dataDeNascimento date,
@@ -35,12 +35,12 @@ CREATE TABLE IF NOT EXISTS candidato (
 	numeroProcessoPrestContasEncrypt varchar(256),
 	numeroProtocolo varchar(256),
 	totalDeBens float,
-	FK_cargo integer,
-	FK_partido integer,
-	FK_eleicao integer,
+	FK_cargo bigint,
+	FK_partido bigint,
+	FK_eleicao bigint,
 	substituto varchar(256),
 	motivos varchar(256),
-	codigoSituacaoCandidato integer,
+	codigoSituacaoCandidato bigint,
 	descricaoSituacaoCandidato varchar(128),
 	st_SUBSTITUIDO boolean,
 	descricaoNaturalidade varchar(128),
@@ -64,18 +64,18 @@ CREATE TABLE IF NOT EXISTS cargo (
 	codigo integer PRIMARY KEY,
 	sigla varchar(64),
 	nome varchar(124),
-	codSuperior integer,
+	codSuperior bigint,
 	titular boolean,
-	contagem integer
+	contagem bigint
 );
 
 CREATE TABLE IF NOT EXISTS bens (
-	ordem integer,
+	ordem bigint,
 	descricao varchar(512),
 	descricaoDeTipoDeBem varchar(256),
 	valor float,
 	dataUltimaAtualizacao date,
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS vices (
@@ -87,51 +87,51 @@ CREATE TABLE IF NOT EXISTS vices (
     sg_PARTIDO varchar(64),
     nm_URNA varchar(256),
     nm_CANDIDATO varchar(256),
-    sq_ELEICAO integer,
-    sq_CANDIDATO_SUPERIOR integer,
-    nr_CANDIDATO integer,
+    sq_ELEICAO bigint,
+    sq_CANDIDATO_SUPERIOR bigint,
+    nr_CANDIDATO bigint,
     ds_CARGO varchar(64),
     nm_PARTIDO varchar(124),
-    sq_CANDIDATO integer,
-    sg_UE integer,
+    sq_CANDIDATO bigint,
+    sg_UE bigint,
     dt_ULTIMA_ATUALIZACAO date,
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS partido (
-	numero integer,
+	numero bigint,
 	sigla varchar(64),
 	nome varchar(124)
 );
 
 CREATE TABLE IF NOT EXISTS eleicao (
-	id integer PRIMARY KEY,
+	id bigint PRIMARY KEY,
     siglaUF varchar(64),
     localidadeSgUe varchar(128),
-    ano integer,
-    codigo integer,
+    ano bigint,
+    codigo bigint,
     nomeEleicao varchar(256),
     tipoEleicao varchar(256),
     turno varchar(128),
     tipoAbrangencia varchar(128),
     dataEleicao date,
-    codSituacaoEleicao integer,
+    codSituacaoEleicao bigint,
     descricaoSituacaoEleicao varchar(256),
     descricaoEleicao varchar(128)
 );
 
 CREATE TABLE IF NOT EXISTS emails (
 	descricao varchar(512),
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS sites (
 	descricao varchar(512),
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS arquivos (
-	idArquivo integer PRIMARY KEY,
+	idArquivo bigint PRIMARY KEY,
     nome varchar(256),
     url varchar(512),
     tipo varchar(64),
@@ -139,11 +139,11 @@ CREATE TABLE IF NOT EXISTS arquivos (
     fullFilePath varchar(128),
     fileInputStream varchar(128),
     fileByteArray varchar(128),
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS eleicoesAnteriores (
-	nrAno integer,
+	nrAno bigint,
 	id integer PRIMARY KEY,
     nomeUrna varchar(256),
     nomeCandidato varchar(512),
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS eleicoesAnteriores (
     partido varchar(64),
     situacaoTotalizacao varchar(128),
     txLink varchar(512),
-	FK_candidato integer
+	FK_candidato bigint
 );
 
 ALTER TABLE bens
