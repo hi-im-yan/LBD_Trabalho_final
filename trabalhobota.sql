@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS arquivos (
 );
 
 CREATE TABLE IF NOT EXISTS eleicoesAnteriores (
-	nrAno bigint,
 	id bigint PRIMARY KEY,
+	nrAno bigint,
     nomeUrna varchar(256),
     nomeCandidato varchar(512),
     idEleicao varchar(128),
