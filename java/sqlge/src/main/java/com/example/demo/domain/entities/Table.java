@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +15,5 @@ import java.util.Set;
 public class Table {
     private String name;
 
-    private Set<Column> columns = new HashSet<>();
+    private Map<String, Object> columns = new HashMap<>();
 }
