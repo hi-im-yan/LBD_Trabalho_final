@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ public class ParseJsons implements IParseJsons {
 
         return resources.stream().map(resource -> {
             try {
-                return parseJsonToHashMap(resource.getFile());
+                return parseJsonToHashMap(resource.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -41,7 +42,7 @@ public class ParseJsons implements IParseJsons {
         }
     }
 
-    private Map parseJsonToHashMap(File file) {
+    private Map parseJsonToHashMap(InputStream file) {
         try {
             return new ObjectMapper().readValue(file, HashMap.class);
         } catch (IOException e) {

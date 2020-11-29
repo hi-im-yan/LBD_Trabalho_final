@@ -56,7 +56,7 @@ public class InsertDataService implements IInsertDataService {
                 });
             } else if (fieldName.equals("emails") && entity.get("emails") != null) {
                 ((List) entity.get("emails")).stream().forEach(email -> {
-                    result.set(genericInsert.insert(dataSource, "\"candidato_emails\"", new HashMap<>() {{
+                    result.set(genericInsert.insert(dataSource, "\"candidato_emails\"", new HashMap() {{
                         put("email", email);
                     }}));
                 });
@@ -66,7 +66,7 @@ public class InsertDataService implements IInsertDataService {
                 });
             } else if (fieldName.equals("sites") && entity.get("sites") != null) {
                 ((List) entity.get("sites")).stream().forEach(site -> {
-                    result.set(genericInsert.insert(dataSource, "\"candidato_sites\"", new HashMap<>() {{
+                    result.set(genericInsert.insert(dataSource, "\"candidato_sites\"", new HashMap() {{
                         put("site", site);
                     }}));
                 });

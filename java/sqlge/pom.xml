@@ -15,7 +15,7 @@
 	<description>Trabalho final de bd</description>
 
 	<properties>
-		<java.version>14</java.version>
+		<java.version>8</java.version>
 		<testcontainers.version>1.15.0</testcontainers.version>
 		<jackson.version>2.10.0</jackson.version>
 	</properties>
