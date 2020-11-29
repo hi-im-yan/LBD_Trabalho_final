@@ -38,8 +38,7 @@ CREATE TABLE IF NOT EXISTS candidato (
 	FK_cargo bigint,
 	FK_partido bigint,
 	FK_eleicao bigint,
-	substituto varchar(256),
-	motivos varchar(256),
+	fk_substituto bigint,
 	codigoSituacaoCandidato bigint,
 	descricaoSituacaoCandidato varchar(128),
 	st_SUBSTITUIDO boolean,
@@ -58,6 +57,20 @@ CREATE TABLE IF NOT EXISTS candidato (
     st_DIVULGA_BENS boolean,
     st_DIVULGA boolean,
     st_REELEICAO boolean
+);
+
+CREATE TABLE IF NOT EXISTS substituto(
+	sqEleicao bigint PRIMARY KEY,
+	sqCandidato bigint,
+	sgUe varchar(256),
+	nrAno integer,
+	nmCandidato varchar(256),
+	url varchar(256)
+);
+
+CREATE TABLE IF NOT EXISTS motivos(
+	descricao varchar(256),
+	fk_candidato bigint
 );
 
 CREATE TABLE IF NOT EXISTS cargo (
@@ -158,19 +171,25 @@ CREATE TABLE IF NOT EXISTS eleicoesAnteriores (
 );
 
 ALTER TABLE bens
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_bens_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
 
 ALTER TABLE vices
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_vices_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
 
 ALTER TABLE emails
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_email_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
 
 ALTER TABLE sites
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_sites_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
 
 ALTER TABLE arquivos
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_arquivos_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
 
 ALTER TABLE eleicoesAnteriores
-ADD CONSTRAINT FK_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+ADD CONSTRAINT FK_eleanteriores_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+
+ALTER TABLE motivos
+ADD CONSTRAINT FK_motivos_candidato FOREIGN KEY(FK_candidato) REFERENCES candidato(id);
+
+ALTER TABLE candidato
+ADD CONSTRAINT FK_motivos_substituto FOREIGN KEY(FK_substituto) REFERENCES substituto(sqeleicao);
