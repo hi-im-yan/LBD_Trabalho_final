@@ -26,7 +26,6 @@ def insert(table_name, value, do_after):
         if type(value[column_name]) is list:
             temp_dict = {column_name: value[column_name]}
             do_after.append(temp_dict)
-            break
 
         elif type(value[column_name]) is dict:
             temp_table = value[column_name]
@@ -41,6 +40,8 @@ def insert(table_name, value, do_after):
             values += "'%s', " % (value[column_name])
 
         elif value[column_name] is None:
+            if column_name == "vices":
+                break
             column += "%s, " % column_name
             values += "null, "
 
@@ -57,7 +58,6 @@ def insert(table_name, value, do_after):
     except Exception as e:
         print(e)
     conn.commit()
-    # print(column + "\n")
 
 
 def insert_if_list(list1):
@@ -69,11 +69,17 @@ def insert_if_list(list1):
                 column = ""
                 values = ""
                 for y in x:
+                    # print(x, y)
                     if temp_json == 'emails':
                         column += "descricao, "
                         values += "'%s', " % x
                         break
                     elif temp_json == 'sites':
+                        column += "descricao, "
+                        values += "'%s', " % x
+                        break
+
+                    elif temp_json == 'motivos':
                         column += "descricao, "
                         values += "'%s', " % x
                         break
@@ -122,10 +128,15 @@ for filename in glob.glob(os.path.join(folder_path, '*.json')):
     with open(filename, 'r') as c:
         candidates = json.load(c)
         do_after = []
-        print(filename)
+        # print(filename)
         insert('candidato', candidates, do_after)
         insert_if_list(do_after)
 
+# with open('../candidatos/120000633197.json', 'r') as c:
+#     candidates = json.load(c)
+#     do_after = []
+#     insert('candidato', candidates, do_after)
+#     insert_if_list(do_after)
 
 cur.close()
 conn.close()
