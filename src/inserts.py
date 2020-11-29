@@ -6,8 +6,8 @@ import os
 try:
     conn = psycopg2.connect(
         database="Trabalho_final",
-        user="postgres",
-        password="Left_4_dead*",
+        user="root",
+        password="root",
         host="localhost",
         port="5432"
     )
@@ -40,7 +40,8 @@ def insert(table_name, value, do_after):
             values += "'%s', " % (value[column_name])
 
         elif value[column_name] is None:
-            if column_name == "vices":
+            # Exception
+            if column_name == "vices" or column_name == "motivos" or column_name == "substituto":
                 break
             column += "%s, " % column_name
             values += "null, "
@@ -56,7 +57,11 @@ def insert(table_name, value, do_after):
     try:
         cur.execute(query)
     except Exception as e:
-        print(e)
+        e = str(e)
+        if e.find('duplicate key value violates unique constraint "cargo_pkey"'):
+            pass
+        else:
+            print(e)
     conn.commit()
 
 
@@ -105,7 +110,11 @@ def insert_if_list(list1):
                 try:
                     cur.execute(query)
                 except Exception as e:
-                    print(e)
+                    e = str(e)
+                    if e.find('duplicate key value violates unique constraint "cargo_pkey"'):
+                        pass
+                    else:
+                        print(e)
 
                 conn.commit()
 
@@ -128,7 +137,7 @@ for filename in glob.glob(os.path.join(folder_path, '*.json')):
     with open(filename, 'r') as c:
         candidates = json.load(c)
         do_after = []
-        # print(filename)
+        print(filename)
         insert('candidato', candidates, do_after)
         insert_if_list(do_after)
 
