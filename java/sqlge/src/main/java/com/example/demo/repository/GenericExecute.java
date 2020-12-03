@@ -14,7 +14,7 @@ public class GenericExecute {
     public CompletableFuture run(DataSource datasource, String query) {
         try {
             Connection connection = datasource.getConnection();
-            Statement statement = connection.createStatement();
+                Statement statement = connection.createStatement();
             statement.execute("DROP SCHEMA public CASCADE;\n" +
                     "            CREATE SCHEMA public;\n" +
                     "            GRANT ALL ON SCHEMA public TO root;\n" +
