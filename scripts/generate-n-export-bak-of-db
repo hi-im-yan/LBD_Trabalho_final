@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo sh -c "docker exec -it trabalho-db pg_dump -U root -h localhost trabalho_db >> rafael-camilo_yan-ajiki_andre-diogenes.sql";
+
+sudo sh -c "docker cp trabalho-db:/rafael-camilo_yan-ajiki_andre-diogenes.sql ./sql-queries";
+
+echo "o dump do banco está pronto, o nome do arquivo é 'rafael-camilo_yan-ajiki_andre-diogenes', está dentro da pasta sql-queries";
+
+cd sql-queries && ls -la;
