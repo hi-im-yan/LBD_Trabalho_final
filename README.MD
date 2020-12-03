@@ -11,3 +11,5 @@ rode o comando
 quando o processamento acabar rode os seguintes comandos
     - ```docker exec -it trabalho-db pg_dump -U root -h localhost trabalho_db >> rafael-camilo_yan-ajiki_andre-diogenes.sql```
     - ```docker cp trabalho-db:/rafael-camilo_yan-ajiki_andre-diogenes.sql ./sql-queries```
+    -```cd sql-queries```
+    - O nome do arquivo é rafael-camilo_yan-ajiki_andre-diogenes.sql

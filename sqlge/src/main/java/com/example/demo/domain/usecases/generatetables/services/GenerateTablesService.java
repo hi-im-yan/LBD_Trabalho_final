@@ -30,6 +30,7 @@ public class GenerateTablesService implements IGenerateTablesService {
     private final IParseJsons parseJsons;
     Logger logger = LoggerFactory.getLogger(GenerateTablesService.class);
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void run(DataSource dataSource) {
         Set<Map<String, Object>> candidates = parseJsons.run();
         logger.info("init mount tables");
