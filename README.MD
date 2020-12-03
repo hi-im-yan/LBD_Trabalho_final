@@ -1,3 +1,6 @@
+##### Link do vídeo
+https://youtu.be/s8G8BEbJvsU
+
 ##### Integrantes
 Rafael Camilo da Silva Melges - 201819070816
 Yan Ajiki - 201819061086
