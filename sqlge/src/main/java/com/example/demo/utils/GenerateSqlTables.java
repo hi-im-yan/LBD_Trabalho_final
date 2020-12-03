@@ -22,7 +22,7 @@ public abstract class GenerateSqlTables {
                 query.append("\t".concat(columnName).concat(" varchar(512)").concat(",\n"));
             }
 
-            query.append(lastColumn).append(");\n\n");
+            query.append(lastColumn).append(");\n");
         });
 
         return query.toString();

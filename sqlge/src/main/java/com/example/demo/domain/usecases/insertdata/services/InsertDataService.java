@@ -39,6 +39,7 @@ public class InsertDataService implements IInsertDataService {
         new ArrayList<>(entity.keySet()).forEach(fieldName -> {
             AtomicReference<CompletableFuture> result = new AtomicReference<>(new CompletableFuture());
             if (fieldName.equals("id")) {
+                entity.put("fk_partido", ((Map) entity.get("partido")).get("numero"));
                 entity.put("fk_substituto", candidate.get("sqeleicao"));
                 result.set(genericInsert.insert(dataSource, tableName, entity));
             } else if (fieldName.equals("cargo") && entity.get("cargo") != null) {

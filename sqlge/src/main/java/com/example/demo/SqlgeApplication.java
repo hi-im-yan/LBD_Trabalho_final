@@ -57,6 +57,7 @@ public class SqlgeApplication implements CommandLineRunner {
             "UPDATE public.candidato_bens SET fk_candidato = '-1' WHERE fk_candidato is NULL OR fk_candidato LIKE 'null';\n" +
             "UPDATE public.candidato_emails SET fk_candidato = '-1' WHERE fk_candidato is NULL OR fk_candidato LIKE 'null';\n" +
             "UPDATE public.candidato_motivos SET fk_candidato = '-1' WHERE fk_candidato is NULL OR fk_candidato LIKE 'null';\n" +
+            "UPDATE public.candidatos SET fk_partido = '-1' WHERE fk_partido is NULL OR fk_partido LIKE 'null';\n" +
             "UPDATE public.candidatos SET fk_substituto = '-1' WHERE fk_substituto is NULL OR fk_substituto LIKE 'null';\n" +
             "UPDATE public.candidato_sites SET fk_candidato = '-1' WHERE fk_candidato is NULL OR fk_candidato LIKE 'null';\n" +
             "UPDATE public.vices SET fk_candidato = '-1' WHERE fk_candidato is NULL OR fk_candidato LIKE 'null';";
@@ -65,6 +66,7 @@ public class SqlgeApplication implements CommandLineRunner {
             "ALTER TABLE public.candidato_bens ALTER COLUMN fk_candidato TYPE BIGINT USING fk_candidato::bigint;\n" +
             "ALTER TABLE public.candidato_emails ALTER COLUMN fk_candidato TYPE BIGINT USING fk_candidato::bigint;\n" +
             "ALTER TABLE public.candidato_motivos ALTER COLUMN fk_candidato TYPE BIGINT USING fk_candidato::bigint;\n" +
+            "ALTER TABLE public.candidatos ALTER COLUMN fk_partido TYPE BIGINT USING fk_partido::bigint;\n" +
             "ALTER TABLE public.candidatos ALTER COLUMN fk_substituto TYPE BIGINT USING fk_substituto::bigint;\n" +
             "ALTER TABLE public.candidato_sites ALTER COLUMN fk_candidato TYPE BIGINT USING fk_candidato::bigint;\n" +
             "ALTER TABLE public.vices ALTER COLUMN fk_candidato TYPE BIGINT USING fk_candidato::bigint;";
@@ -73,6 +75,7 @@ public class SqlgeApplication implements CommandLineRunner {
             "UPDATE public.candidato_bens SET fk_candidato = null WHERE fk_candidato < 0;\n" +
             "UPDATE public.candidato_emails SET fk_candidato = null WHERE fk_candidato < 0;\n" +
             "UPDATE public.candidato_motivos SET fk_candidato = null WHERE fk_candidato < 0;\n" +
+            "UPDATE public.candidatos SET fk_partido = null WHERE fk_partido < 0;\n" +
             "UPDATE public.candidatos SET fk_substituto = null WHERE fk_substituto < 0;\n" +
             "UPDATE public.candidato_sites SET fk_candidato = null WHERE fk_candidato < 0;\n" +
             "UPDATE public.vices SET fk_candidato = null WHERE fk_candidato < 0;";
@@ -82,6 +85,7 @@ public class SqlgeApplication implements CommandLineRunner {
             "ALTER TABLE public.candidato_emails ADD fk_candidato VARCHAR(512);\n" +
             "ALTER TABLE public.candidato_motivos ADD fk_candidato VARCHAR(512);\n" +
             "ALTER TABLE public.candidatos ADD fk_substituto VARCHAR(512);\n" +
+            "ALTER TABLE public.candidatos ADD fk_partido VARCHAR(512);\n" +
             "ALTER TABLE public.candidato_sites ADD fk_candidato VARCHAR(512);\n" +
             "ALTER TABLE public.vices ADD fk_candidato VARCHAR(512);";
 
@@ -89,6 +93,7 @@ public class SqlgeApplication implements CommandLineRunner {
             "ALTER TABLE public.candidato_bens ADD CONSTRAINT fk_bens_candidato FOREIGN KEY (fk_candidato) REFERENCES public.candidatos(id);\n" +
             "ALTER TABLE public.candidato_emails ADD CONSTRAINT fk_email_candidato FOREIGN KEY (fk_candidato) REFERENCES public.candidatos(id);\n" +
             "ALTER TABLE public.candidato_motivos ADD CONSTRAINT fk_motivos_candidato FOREIGN KEY (fk_candidato) REFERENCES public.candidatos(id);\n" +
+            "ALTER TABLE public.candidatos ADD CONSTRAINT fk_candidato_partido FOREIGN KEY (fk_partido) REFERENCES public.partidos(numero);\n" +
             "ALTER TABLE public.candidatos ADD CONSTRAINT fk_motivos_substituto FOREIGN KEY (fk_substituto) REFERENCES public.candidato_substitutos(sqeleicao);\n" +
             "ALTER TABLE public.candidato_sites ADD CONSTRAINT fk_sites_candidato FOREIGN KEY (fk_candidato) REFERENCES public.candidatos(id);\n" +
             "ALTER TABLE public.vices ADD CONSTRAINT fk_vices_candidato FOREIGN KEY (fk_candidato) REFERENCES public.candidatos(id);";
@@ -117,6 +122,7 @@ public class SqlgeApplication implements CommandLineRunner {
         genericExecute.run(dataSource, ALTER_IDS_TO_BIGINT_QUERY);
         logger.info("INIT REMOVE_DP_IDS_QUERY");
         genericExecute.run(dataSource, REMOVE_DP_IDS_QUERY);
+        genericExecute.run(dataSource, "update candidatos c set fk_partido = null where c.fk_partido not in (select p.numero from partidos p)");
         logger.info("INIT CREATE_PKS_QUERY");
         genericExecute.run(dataSource, CREATE_PKS_QUERY);
         logger.info("INIT ADD_FKS_QUERY");

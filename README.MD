@@ -1,3 +1,8 @@
+##### Integrantes
+Rafael Camilo da Silva Melges - 201819070816
+Yan Ajiki - 201819061086
+André Diógenes Silva - 201719060975
+
 ##### COMO RODAR A APLICAÇÃO E GERAR O SQL
 
 ###### Linux || MACOS
