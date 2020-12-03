@@ -1,0 +1,7 @@
+#!/bin/bash
+
+VERIFY_SCRIPT_PATH=`realpath scripts/verify-if-container-is-running;` && 
+
+sudo sh -c "sudo chmod +x $VERIFY_SCRIPT_PATH";
+
+sh -c "docker-compose up -d --build" & $VERIFY_SCRIPT_PATH
