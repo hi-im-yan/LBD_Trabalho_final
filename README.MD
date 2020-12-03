@@ -7,7 +7,6 @@ André Diógenes Silva - 201719060975
 
 ###### Linux || MACOS
 entre na pasta raiz do projeto e execute o seguinte comando:
-
     - sudo sh -c "chmod +x ./scripts/init-import && sudo ./scripts/init-import"
     - OBS: COM AS ASPAS DUPLAS
 
